@@ -863,10 +863,11 @@ class Nikola(object):
             dst = urljoin(self.config['BASE_URL'], dst.lstrip('/'))
             if self.config.get('URL_TYPE') == 'full_path':
                 parsed = urlparse(urljoin(self.config['BASE_URL'], dst.lstrip('/')))
+                dst = parsed.path
+                if parsed.query:
+                    dst += "?" + parsed.query
                 if parsed.fragment:
-                    dst = '{0}#{1}'.format(parsed.path, parsed.fragment)
-                else:
-                    dst = parsed.path
+                    dst += "#" + parsed.fragment
             return dst
 
         # Now both paths are on the same site and absolute
